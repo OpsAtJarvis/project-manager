@@ -25,6 +25,7 @@ export default async function ProjectsPage() {
   }
 
   const { data: projects } = await getProjects();
+  const projectList = projects || [];
 
   return (
     <div>
@@ -40,7 +41,7 @@ export default async function ProjectsPage() {
         </Link>
       </div>
 
-      {projects.length === 0 ? (
+      {projectList.length === 0 ? (
         <div className="bg-white rounded-lg shadow p-8 text-center">
           <h3 className="text-lg font-medium text-gray-900 mb-2">
             No projects yet
@@ -54,7 +55,7 @@ export default async function ProjectsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
+          {projectList.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
