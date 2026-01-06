@@ -25,6 +25,7 @@ export default async function DashboardPage() {
   }
 
   const { data: projects } = await getProjects();
+  const projectList = projects || [];
 
   return (
     <div>
@@ -42,7 +43,7 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
-      {projects.length === 0 ? (
+      {projectList.length === 0 ? (
         <div className="bg-white rounded-lg shadow p-8 text-center">
           <h3 className="text-lg font-medium text-gray-900 mb-2">
             No projects yet
@@ -56,13 +57,13 @@ export default async function DashboardPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.slice(0, 6).map((project) => (
+          {projectList.slice(0, 6).map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       )}
 
-      {projects.length > 6 && (
+      {projectList.length > 6 && (
         <div className="mt-6 text-center">
           <Link href="/projects" className="inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-blue-500 px-4 py-2 text-sm">
             View All Projects
