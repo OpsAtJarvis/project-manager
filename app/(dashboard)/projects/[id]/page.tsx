@@ -43,34 +43,36 @@ export default async function ProjectDetailPage({
   }
 
   const { data: members } = await getProjectMembers(id);
+  const membersList: any[] = members || [];
   const { data: notes } = await getNotes(id);
-  const isOwner = project.owner_id === userId;
+  const proj: any = project;
+  const isOwner = proj.owner_id === userId;
 
   return (
     <div>
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-4">
-            <h1 className="text-3xl font-bold text-gray-900">{project.name}</h1>
-            <Badge status={project.status}>{project.status}</Badge>
+            <h1 className="text-3xl font-bold text-gray-900">{proj.name}</h1>
+            <Badge status={proj.status}>{proj.status}</Badge>
           </div>
           <Link href="/projects" className="inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-blue-500 px-4 py-2 text-sm">
             Back to Projects
           </Link>
         </div>
-        {project.description && (
-          <p className="text-gray-600">{project.description}</p>
+        {proj.description && (
+          <p className="text-gray-600">{proj.description}</p>
         )}
         <div className="mt-2 text-sm text-gray-500">
-          Created by {project.owner.first_name || project.owner.email} on{' '}
-          {new Date(project.created_at).toLocaleDateString()}
+          Created by {proj.owner.first_name || proj.owner.email} on{' '}
+          {new Date(proj.created_at).toLocaleDateString()}
         </div>
       </div>
 
       <div className="mb-6">
         <Card className="p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Timeline</h2>
-          <ProjectTimeline startDate={project.start_date} dueDate={project.due_date} />
+          <ProjectTimeline startDate={proj.start_date} dueDate={proj.due_date} />
         </Card>
       </div>
 
@@ -80,9 +82,9 @@ export default async function ProjectDetailPage({
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Documents
             </h2>
-            <DocumentUpload projectId={project.id} />
+            <DocumentUpload projectId={proj.id} />
             <div className="mt-6">
-              <DocumentList documents={project.documents || []} projectId={project.id} isOwner={isOwner} />
+              <DocumentList documents={proj.documents || []} projectId={proj.id} isOwner={isOwner} />
             </div>
           </Card>
 
@@ -90,7 +92,7 @@ export default async function ProjectDetailPage({
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Notes
             </h2>
-            <ProjectNotes notes={notes || []} projectId={project.id} currentUserId={userId} />
+            <ProjectNotes notes={notes || []} projectId={proj.id} currentUserId={userId} />
           </Card>
         </div>
 
@@ -100,9 +102,9 @@ export default async function ProjectDetailPage({
               Project Members
             </h2>
             <MemberList
-              members={members}
-              projectId={project.id}
-              ownerId={project.owner_id}
+              members={membersList}
+              projectId={proj.id}
+              ownerId={proj.owner_id}
               isOwner={isOwner}
             />
           </Card>
@@ -114,26 +116,26 @@ export default async function ProjectDetailPage({
             <dl className="space-y-2 text-sm">
               <div>
                 <dt className="text-gray-500">Status</dt>
-                <dd className="font-medium text-gray-900">{project.status}</dd>
+                <dd className="font-medium text-gray-900">{proj.status}</dd>
               </div>
-              {project.assigned_to && (
+              {proj.assigned_to && (
                 <div>
                   <dt className="text-gray-500">Assigned To</dt>
                   <dd className="font-medium text-gray-900">
-                    {members?.find(m => m.user_id === project.assigned_to)?.user?.first_name || 'Unknown'}
+                    {membersList?.find((m: any) => m.user_id === proj.assigned_to)?.user?.first_name || 'Unknown'}
                   </dd>
                 </div>
               )}
               <div>
                 <dt className="text-gray-500">Created</dt>
                 <dd className="font-medium text-gray-900">
-                  {new Date(project.created_at).toLocaleDateString()}
+                  {new Date(proj.created_at).toLocaleDateString()}
                 </dd>
               </div>
               <div>
                 <dt className="text-gray-500">Last Updated</dt>
                 <dd className="font-medium text-gray-900">
-                  {new Date(project.updated_at).toLocaleDateString()}
+                  {new Date(proj.updated_at).toLocaleDateString()}
                 </dd>
               </div>
             </dl>

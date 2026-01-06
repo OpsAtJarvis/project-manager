@@ -25,7 +25,7 @@ export default async function DashboardPage() {
   }
 
   const { data: projects } = await getProjects();
-  const projectList = projects || [];
+  const projectList: any[] = projects || [];
 
   return (
     <div>

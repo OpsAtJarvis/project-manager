@@ -66,7 +66,7 @@ export async function POST(req: Request) {
         last_name: last_name || null,
         avatar_url: image_url || null,
         updated_at: new Date().toISOString(),
-      });
+      } as any);
 
       if (error) {
         console.error('Error upserting user:', error);
@@ -83,7 +83,7 @@ export async function POST(req: Request) {
         name,
         slug,
         updated_at: new Date().toISOString(),
-      });
+      } as any);
 
       if (error) {
         console.error('Error upserting organization:', error);
@@ -107,10 +107,10 @@ export async function POST(req: Request) {
 
       // Add organization member
       const { error } = await supabase.from('org_members').upsert({
-        org_id: org.id,
+        org_id: (org as any).id,
         user_id: public_user_data?.user_id || '',
         role: 'member',
-      });
+      } as any);
 
       if (error) {
         console.error('Error adding org member:', error);
@@ -136,7 +136,7 @@ export async function POST(req: Request) {
       const { error } = await supabase
         .from('org_members')
         .delete()
-        .eq('org_id', org.id)
+        .eq('org_id', (org as any).id)
         .eq('user_id', public_user_data?.user_id || '');
 
       if (error) {
