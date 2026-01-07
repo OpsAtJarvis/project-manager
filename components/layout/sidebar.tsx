@@ -23,6 +23,11 @@ export function Sidebar() {
           hidePersonal
           afterSelectOrganizationUrl="/dashboard"
           afterCreateOrganizationUrl="/dashboard"
+          afterLeaveOrganizationUrl="/dashboard"
+          afterInviteOrganizationUrl="/dashboard"
+          organizationProfileProps={{
+            afterLeaveOrganizationUrl: "/dashboard",
+          }}
         />
       </div>
 
